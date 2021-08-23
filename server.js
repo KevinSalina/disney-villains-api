@@ -44,6 +44,17 @@ app.get('/villains/:slug', async (req, res) => {
   res.send(villains)
 })
 
+// Create a New villain
+app.post('/villains', async (req, res) => {
+  const newVillain = await model.villains.create({
+    name: req.body.name,
+    movie: req.body.movie,
+    slug: req.body.slug
+  })
+
+  console.log(newVillain)
+})
+
 app.all('*', (req, res) => res.sendStatus(404))
 
 app.listen(port, () => {
