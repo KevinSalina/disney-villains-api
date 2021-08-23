@@ -16,13 +16,15 @@ app.use(express.urlencoded({
 }));
 
 // Import Villains.js into SQL Database
-model.villains.bulkCreate(villains)
-  .then(() => {
-    console.log('Succes')
-  })
+// model.villains.bulkCreate(villains)
+//   .then(() => {
+//     console.log('Succes')
+//   })
 
-app.get('/', (req, res) => {
-  res.send('hello')
+app.get('/villains', async (req, res) => {
+  const villains = await model.villains.findAll()
+
+  res.send(villains)
 })
 
 app.all('*', (req, res) => res.sendStatus(404))
