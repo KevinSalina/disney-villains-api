@@ -6,6 +6,7 @@ const mysql = require('mysql2')
 // Import Sequelize Model
 const model = require('./models')
 const villains = require('./villains.js')
+const { Op } = require('sequelize')
 
 // App config
 app.set('view engine', 'pug')
@@ -21,9 +22,25 @@ app.use(express.urlencoded({
 //     console.log('Succes')
 //   })
 
+
+// Get all villains
 app.get('/villains', async (req, res) => {
   const villains = await model.villains.findAll()
 
+  res.send(villains)
+})
+
+// Get villain by slug
+app.get('/villains/:slug', async (req, res) => {
+  const { slug } = req.params
+
+  const villains = await model.villains.findAll({
+    where: {
+      name: {
+        [Op.substring]: `${slug}`
+      }
+    }
+  })
   res.send(villains)
 })
 
