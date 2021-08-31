@@ -72,10 +72,10 @@ const villains = [{
   slug: 'ursula',
 }]
 
-const singleVillain = [{
+const singleVillain = {
   name: 'Captain Hook',
   movie: 'Peter Pan',
   slug: 'captain-hook',
-}]
+}
 
 module.exports = { villains, singleVillain }

@@ -8,16 +8,24 @@ const getAllVillains = async (req, res) => {
 }
 
 const getVillainBySlug = async (req, res) => {
-  const { slug } = req.params
+  try {
+    const { slug } = req.params
 
-  const villains = await model.villains.findAll({
-    where: {
-      name: {
-        [Op.substring]: `${slug}`
+    const villains = await model.villains.findAll({
+      where: {
+        name: {
+          [Op.substring]: `${slug}`
+        }
       }
-    }
-  })
-  res.send(villains)
+    })
+
+    return villains ? res.send(villains) : res.sendStatus(404)
+  } catch (error) {
+    console.log(error)
+
+    return res.sendStatus(500)
+  }
+
 }
 
 const createNewVillain = async (req, res) => {
@@ -27,7 +35,7 @@ const createNewVillain = async (req, res) => {
     slug: req.body.slug
   })
 
-  console.log(newVillain)
+  return res.send(newVillain)
 }
 
 module.exports = { getAllVillains, getVillainBySlug, createNewVillain }
