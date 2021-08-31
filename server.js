@@ -1,15 +1,10 @@
+// Dependencies
 const express = require('express')
 const app = express()
-const port = 3000
 const mysql = require('mysql2')
 
 // Import Controllers
 const { getAllVillains, getVillainBySlug, createNewVillain } = require('./controllers/villains')
-
-// Import Sequelize Model
-const model = require('./models')
-const villains = require('./villains.js')
-const { Op } = require('sequelize')
 
 // App config
 app.set('view engine', 'pug')
@@ -36,6 +31,7 @@ app.post('/villains', createNewVillain)
 
 app.all('*', (req, res) => res.sendStatus(404))
 
+const port = 3000
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
 })
