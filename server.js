@@ -3,6 +3,9 @@ const app = express()
 const port = 3000
 const mysql = require('mysql2')
 
+// Import Controllers
+const { getAllVillains, getVillainBySlug, createNewVillain } = require('./controllers/villains')
+
 // Import Sequelize Model
 const model = require('./models')
 const villains = require('./villains.js')
@@ -22,38 +25,14 @@ app.use(express.urlencoded({
 //     console.log('Succes')
 //   })
 
-
 // Get all villains
-app.get('/villains', async (req, res) => {
-  const villains = await model.villains.findAll()
-
-  res.send(villains)
-})
+app.get('/villains', getAllVillains)
 
 // Get villain by slug
-app.get('/villains/:slug', async (req, res) => {
-  const { slug } = req.params
-
-  const villains = await model.villains.findAll({
-    where: {
-      name: {
-        [Op.substring]: `${slug}`
-      }
-    }
-  })
-  res.send(villains)
-})
+app.get('/villains/:slug', getVillainBySlug)
 
 // Create a New villain
-app.post('/villains', async (req, res) => {
-  const newVillain = await model.villains.create({
-    name: req.body.name,
-    movie: req.body.movie,
-    slug: req.body.slug
-  })
-
-  console.log(newVillain)
-})
+app.post('/villains', createNewVillain)
 
 app.all('*', (req, res) => res.sendStatus(404))
 
